@@ -1,7 +1,8 @@
 from flask import Flask, request
 from utility import get_token, create_login_token
-from config import CODE_VERIFIER, CODE_CHALLENGE, DEBUG, FLASK_APP_URI
+from config import CODE_VERIFIER, CODE_CHALLENGE, DEBUG, FLASK_APP_URI, logger
 import sys
+import json
 
 app = Flask(__name__)
 
@@ -9,10 +10,11 @@ app = Flask(__name__)
 def home():
     return "Why are you looking for me?"
 
-@app.route("/sso")
+@app.route("/callback")
 def sso():
-    code = request.args.get("code")
+    code: str = request.args.get("code")
     r = get_token(code, CODE_VERIFIER)
+    logger.debug(json.dumps({ "code": code }))
     # TODO Finish results from this, which will update or inject user into workflow
     pass
 

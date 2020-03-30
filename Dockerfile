@@ -1,5 +1,6 @@
 
 # Python Flask App
+#  Default will run port 5000, so you would want to do something like: `-p 80:5000`
 from centos:latest
 COPY python/ /home/python/.
 RUN yum update -y

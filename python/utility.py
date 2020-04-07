@@ -9,7 +9,7 @@ import requests
 import sys
 import urllib                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
-def create_login_token(code_challenge, scope: List):
+def create_login_token(code_challenge, scope: List, state: str = CLIENT_APP) -> str:
     url = "https://login.eveonline.com/v2/oauth/authorize/"
     queryParams = {
         "response_type": "code",
@@ -18,9 +18,8 @@ def create_login_token(code_challenge, scope: List):
         "scope": ",".join(scope),
         "code_challenge": code_challenge,
         "code_challenge_method": "S256",
-        "state": CLIENT_APP
+        "state": state
     }
-
     return url + '?' + urllib.parse.urlencode(queryParams)
 
 
@@ -38,10 +37,10 @@ def get_token(code, verifier):
         "code_verifier": verifier
     }
     try:
-        r = requests.post(url, headers=headers, data=payload)
+        r = requests.post(url, headers=headers, data=payload).json()
     except:
         return None
-    return r.json()
+    return r
 
 def refresh_token(refresh_token):
     """Refresh Token with EveOnline"""
@@ -57,45 +56,46 @@ def refresh_token(refresh_token):
         "refresh_token": refresh_token
     }
     try:
-        r = requests.post(url, data=payload, headers=headers)
+        r = requests.post(url, data=payload, headers=headers).json()
     except:
         return None
-    return r.json()
+    return r
 
-def get_character(character_id, token):
+def get_character(character_id:int, token):
     """Private Character Information"""
     if not character_id or character_id < 0 or not token:
         return None
-    url = f"https://esi.evetech.net/latest/characters/${character_id}"
+    url = f"https://esi.evetech.net/latest/characters/{character_id}/"
     headers = {
-        "Authorization": token
+        "Authorization": f"Bearer {token}",
+        "accept": "application/json"
     }
     try:
-        r = requests.get(url, params=headers)
+        r = requests.get(url, params=headers).json()
     except:
         return None
-    return r.json()
+    return r
 
-def get_corporation(corporation_id):
+def get_corporation(corporation_id:int):
     """Public Corporation Information"""
     if not corporation_id or corporation_id < 0:
         return None
     url = f"https://esi.evetech.net/latest/corporation/{corporation_id}/"
     try:
-        r = requests.get(url)
+        r = requests.get(url).json()
     except:
         return None
-    return r.json()
+    return r
 
 def get_moon_states(corporation_id, token):
     if not corporation_id or corporation_id < 0 or not token:
         return None
     url = f"https://esi.evetech.net/latest/corporation/{corporation_id}/mining/extractions/"
     headers = {
-        "Authorization": token
+        "Authorization": f"Bearer {token}"
     }
     try:
-        r = requests.get(url, headers=headers)
+        r = requests.get(url, headers=headers).json()
     except:
         return None
-    return r.json()
+    return r

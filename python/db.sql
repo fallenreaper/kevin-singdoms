@@ -1,10 +1,10 @@
--- public."user" definition
+-- public."eve_user" definition
 
 -- Drop table
 
--- DROP TABLE public."user";
+-- DROP TABLE public."eve_user";
 
-CREATE TABLE public."user" (
+CREATE TABLE public."eve_user" (
 	character_id int4 NOT NULL,
 	character_name varchar NULL,
 	refresh_token varchar NULL,
@@ -13,8 +13,8 @@ CREATE TABLE public."user" (
 	token_expires date NULL,
 	access_token varchar NULL,
 	discord_user_id int4 NULL,
-	CONSTRAINT user_pk PRIMARY KEY (character_id),
-	CONSTRAINT user_un UNIQUE (character_name)
+	CONSTRAINT eve_user_pk PRIMARY KEY (character_id),
+	CONSTRAINT eve_user_un UNIQUE (character_name)
 );
 
 -- public.structure_monitor definition
@@ -49,4 +49,4 @@ CREATE TABLE public.channel_character_map (
 
 -- public.channel_character_map foreign keys
 
-ALTER TABLE public.channel_character_map ADD CONSTRAINT channel_character_map_fk FOREIGN KEY (character_id) REFERENCES "user"(character_id);
+ALTER TABLE public.channel_character_map ADD CONSTRAINT channel_character_map_fk FOREIGN KEY (character_id) REFERENCES "eve_user"(character_id);

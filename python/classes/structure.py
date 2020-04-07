@@ -3,7 +3,7 @@ from datetime import datetime
 
 class Structure:
     structure_id: int = -1
-    corporation_id: int = -1
+    # corporation_id: int = -1
     structure_name: str = ""
     moon_id: int = -1
     moon_name: str = ""
@@ -15,7 +15,7 @@ class Structure:
     @staticmethod
     def from_json(js):
         s = Structure()
-        s.corporation_id = js["corporation_id"] if "corporation_id" in js else -1
+        # s.corporation_id = js["corporation_id"] if "corporation_id" in js else -1
         s.moon_id = js["moon_id"] if "moon_id" in js else -1
         s.moon_name = js["moon_name"] if "moon_name" in js else ""
         s.structure_id = js["structure_id"] if "structure_id" in js else -1
@@ -29,7 +29,7 @@ class Structure:
         return {
             "moon_id": self.moon_id,
             "moon_name": self.moon_name,
-            "corporation_id": self.corporation_id,
+            # "corporation_id": self.corporation_id,
             "structure_id": self.structure_id,
             "structure_name": self.structure_name,
             "chunk_arrival_time": self.chunck_arrival_time.isoformat() if self.chunck_arrival_time is not None else None,

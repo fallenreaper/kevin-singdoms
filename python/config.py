@@ -31,10 +31,8 @@ sql_credentials = {
     "host": "moondb"
 }
 db_con = None
-db_cur = None
 try:
     db_con = psycopg2.connect(**sql_credentials)
-    db_cur = db_con.cursor()
 except:
     print("Error Connecting to Database.")
     exit(1)

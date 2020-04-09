@@ -12,10 +12,6 @@ DATA = {}
 def home():
     return "Why are you looking for me?"
 
-# @app.route("/login")
-# def login():
-#     return create_login_token(CODE_CHALLENGE))
-
 @app.route("/callback")
 def sso():
     global DATA
@@ -39,6 +35,7 @@ def sso():
     # TODO Finish results from this, which will update or inject user into workflow
     # pass
 
+@app.route("/login")
 @app.route("/link")
 def create_login_link():
     channelId = request.args.get("channelId") or None
